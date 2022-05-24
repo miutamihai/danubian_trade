@@ -35,3 +35,5 @@ npm-debug.log
 .idea
 data
 danubian_trade.iml
+.elixir_ls
+.vscode
