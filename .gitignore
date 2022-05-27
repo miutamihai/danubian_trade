@@ -37,3 +37,5 @@ data
 danubian_trade.iml
 .elixir_ls
 .vscode
+.DS_Store
+**/.DS_Store
