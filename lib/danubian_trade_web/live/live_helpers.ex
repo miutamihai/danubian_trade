@@ -3,6 +3,7 @@ defmodule DanubianTradeWeb.LiveHelpers do
   import Phoenix.LiveView.Helpers
 
   alias Phoenix.LiveView.JS
+  alias DanubianTrade.Accounts
 
   @doc """
   Renders a live component inside a modal.
@@ -56,5 +57,11 @@ defmodule DanubianTradeWeb.LiveHelpers do
     js
     |> JS.hide(to: "#modal", transition: "fade-out")
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
+  end
+
+  def find_current_user(session) do
+    with user_token when not is_nil(user_token) <- session["user_token"],
+         user <- Accounts.get_user_by_session_token(user_token),
+         do: user
   end
 end

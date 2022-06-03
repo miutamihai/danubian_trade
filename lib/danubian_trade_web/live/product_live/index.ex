@@ -5,8 +5,13 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   alias DanubianTrade.Products.Product
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :products, list_products())}
+  def mount(_params, session, socket) do
+    current_user = find_current_user(session)
+
+    {:ok, socket
+    |> assign(:current_user, current_user)
+    |> assign(:products, list_products())
+    }
   end
 
   @impl true
