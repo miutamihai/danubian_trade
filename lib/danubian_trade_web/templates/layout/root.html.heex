@@ -55,6 +55,13 @@
                                 <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "block px-4 py-2 text-sm text-gray-700" %>
                             </div>
                         </div>
+                        <% else %>
+                        <div class="inline-flex rounded-md shadow">
+                            <a href={Routes.user_registration_path(@conn, :new)} class="inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"> Register </a>
+                        </div>
+                        <div class="ml-3 inline-flex rounded-md shadow">
+                            <a href={Routes.user_session_path(@conn, :new)} class="inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"> Log in </a>
+                        </div>
                         <% end %>
                     </div>
                 </div>
