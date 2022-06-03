@@ -28,26 +28,22 @@ defmodule DanubianTradeWeb.LiveHelpers do
     assigns = assign_new(assigns, :return_to, fn -> nil end)
 
     ~H"""
-    <div id="modal" class="phx-modal fade-in" phx-remove={hide_modal()}>
-      <div
-        id="modal-content"
-        class="phx-modal-content fade-in-scale"
-        phx-click-away={JS.dispatch("click", to: "#close")}
-        phx-window-keydown={JS.dispatch("click", to: "#close")}
-        phx-key="escape"
-      >
-        <%= if @return_to do %>
-          <%= live_patch "✖",
-            to: @return_to,
-            id: "close",
-            class: "phx-modal-close",
-            phx_click: hide_modal()
-          %>
-        <% else %>
-          <a id="close" href="#" class="phx-modal-close" phx-click={hide_modal()}>✖</a>
-        <% end %>
-
-        <%= render_slot(@inner_block) %>
+    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" phx-remove={hide_modal()}>
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div class="fixed z-10 inset-0 overflow-y-auto" phx-click-away={JS.dispatch("click", to: "#close")}
+           phx-window-keydown={JS.dispatch("keydown", to: "#close")}
+           phx-key="escape"
+        >
+        <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+          <div class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+            <%= if @return_to do %>
+                <%= live_patch "", to: @return_to, id: "close", phx_click: hide_modal(), class: "close" %>
+            <% else %>
+              <span role="button" phx-click={hide_modal()} class="close"/>
+            <% end %>
+            <%= render_slot(@inner_block) %>
+          </div>
+        </div>
       </div>
     </div>
     """

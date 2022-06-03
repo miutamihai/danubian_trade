@@ -1,33 +1,36 @@
 <div>
-  <h2><%= @title %></h2>
+    <h3 class="text-lg leading-6 font-medium text-gray-900 ml-3 mt-3" id="modal-title"><%= @title %></h3>
 
-  <.form
+    <.form
     let={f}
     for={@changeset}
     id="product-form"
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
-  
-    <%= label f, :description %>
-    <%= text_input f, :description %>
-    <%= error_tag f, :description %>
-  
-    <%= label f, :price %>
-    <%= number_input f, :price, step: "any" %>
-    <%= error_tag f, :price %>
 
+    <div class="px-4 py-3 my-4 flex flex-col justify-between items-center" style="min-height: 250px">
+        <label for="name" class="sr-only">Name</label>
+        <%= text_input f, :name, required: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Name" %>
+        <%= error_tag f, :name %>
 
-    <%= label f, :image %>
-    <%= text_input f, :image %>
-    <%= error_tag f, :image %>
-  
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+        <label for="description" class="sr-only">Description</label>
+        <%= text_input f, :description, required: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Description" %>
+        <%= error_tag f, :description %>
+
+        <label for="price" class="sr-only">Price</label>
+        <%= text_input f, :price, required: true, step: "any", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Price" %>
+        <%= error_tag f, :price %>
+
+        <label for="image" class="sr-only">Image</label>
+        <%= text_input f, :image, required: true, step: "any", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Image url" %>
+        <%= error_tag f, :image %>
     </div>
-  </.form>
+    <div class="w-full flex justify-center my-3">
+        <button type="submit" style="width: 30%"
+                class="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Save
+        </button>
+    </div>
+</.form>
 </div>
