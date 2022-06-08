@@ -235,6 +235,16 @@ defmodule DanubianTrade.Accounts do
   end
 
   @doc """
+  Gets user's cart by id
+  """
+
+  def get_user_carts(user_id) do
+
+    Repo.get!(User, user_id)
+      |> Repo.preload(carts: [:products])
+  end
+
+  @doc """
   Deletes the signed token with the given context.
   """
   def delete_session_token(token) do

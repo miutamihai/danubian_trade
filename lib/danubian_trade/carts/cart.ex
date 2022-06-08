@@ -3,8 +3,10 @@ defmodule DanubianTrade.Carts.Cart do
   import Ecto.Changeset
 
   schema "carts" do
-    field :quantity, :integer
+    many_to_many :products, DanubianTrade.Products.Product,
+      join_through: DanubianTrade.Carts.CartProducts
 
+    belongs_to :user, DanubianTrade.Users.User
     timestamps()
   end
 
