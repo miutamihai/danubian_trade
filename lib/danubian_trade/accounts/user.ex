@@ -8,6 +8,7 @@ defmodule DanubianTrade.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
     has_many :carts, DanubianTrade.Carts.Cart
+    has_many :products, DanubianTrade.Products.Product
 
     timestamps()
   end

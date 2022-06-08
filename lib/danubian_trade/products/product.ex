@@ -7,6 +7,7 @@ defmodule DanubianTrade.Products.Product do
     field :name, :string
     field :price, :decimal
     field :image, :string
+    belongs_to :creator, DanubianTrade.Accounts.User
 
     timestamps()
   end
