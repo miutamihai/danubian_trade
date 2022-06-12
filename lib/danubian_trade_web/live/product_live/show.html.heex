@@ -1,57 +1,68 @@
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.product_show_path(@socket, :show, @product)}>
-    <.live_component
-      module={DanubianTradeWeb.ProductLive.FormComponent}
-      id={@product.id}
-      title={@page_title}
-      action={@live_action}
-      product={@product}
-      return_to={Routes.product_show_path(@socket, :show, @product)}
-    />
+    <.live_component module={DanubianTradeWeb.ProductLive.FormComponent} id={@product.id} title={@page_title}
+      action={@live_action} product={@product} return_to={Routes.product_show_path(@socket, :show, @product)} />
   </.modal>
-<% end %>
+  <% end %>
 
-<div class="bg-white">
-  <div>
-    <a href={Routes.product_index_path(@socket, :index)} style="height: 50px; width: 50px; border-radius: 50%;" role="button" class="hover:bg-gray-400 bg-gray-800 flex items-center justify-center mt-3 ml-3">
-      <svg style="height: 32px; width: 32px; fill: white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/></svg>
-    </a>
-  </div>
-  <div class="pt-6">
-    <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-      <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-        <img src={@product.image} alt="Two each of gray, white, and black shirts laying flat." class="w-full h-full object-center object-cover">
+    <div class="bg-white">
+      <div>
+        <a href={Routes.product_index_path(@socket, :index)} style="height: 50px; width: 50px; border-radius: 50%;"
+          role="button" class="hover:bg-gray-400 bg-gray-800 flex items-center justify-center mt-3 ml-3">
+          <svg style="height: 32px; width: 32px; fill: white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+            <path
+              d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" />
+          </svg>
+        </a>
       </div>
-    </div>
+      <div class="pt-6">
+        <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+          <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
+            <img src={@product.image} alt="Two each of gray, white, and black shirts laying flat."
+              class="w-full h-full object-center object-cover">
+          </div>
+        </div>
 
-    <!-- Product info -->
-    <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
-      <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl"><%= @product.name %></h1>
-      </div>
+        <!-- Product info -->
+        <div
+          class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+          <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+            <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+              <%= @product.name %>
+            </h1>
+          </div>
 
-      <!-- Options -->
-     <div class="mt-4 lg:mt-0 lg:row-span-3">
-        <h2 class="sr-only">Product information</h2>
-        <p class="text-3xl text-gray-900"><%= @product.price %> RON</p>
+          <!-- Options -->
+          <div class="mt-4 lg:mt-0 lg:row-span-3">
+            <h2 class="sr-only">Product information</h2>
+            <p class="text-3xl text-gray-900">
+              <%= @product.price %> RON
+            </p>
 
-        <form class="mt-10">
-          <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add to bag</button>
-        </form>
-      </div>
+            <form class="mt-10">
+              <%= if edit?(@current_user, @product) do %>
+                <%= live_patch "Edit" , to: Routes.product_show_path(@socket, :edit, @product),
+                  class: "mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  %>
+                  <% else %>
+                    <button type="submit"
+                      class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
+                      to bag</button>
+                    <% end %>
+            </form>
+          </div>
 
-      <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <div>
-          <h3 class="sr-only">Description</h3>
-          <div class="space-y-6">
-            <p class="text-base text-gray-900"><%= @product.description %></p>
+          <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+            <div>
+              <h3 class="sr-only">Description</h3>
+              <div class="space-y-6">
+                <p class="text-base text-gray-900">
+                  <%= @product.description %>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<%= if edit?(@current_user, @product) do %>
-<span><%= live_patch "Edit", to: Routes.product_show_path(@socket, :edit, @product), class: "button" %></span> |
-<%= end %>

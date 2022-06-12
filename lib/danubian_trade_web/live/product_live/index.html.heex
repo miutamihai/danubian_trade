@@ -1,56 +1,58 @@
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.product_index_path(@socket, :index)}>
-    <.live_component
-      module={DanubianTradeWeb.ProductLive.FormComponent}
-      id={@product.id || :new}
-      title={@page_title}
-      action={@live_action}
-      product={@product}
-      return_to={Routes.product_index_path(@socket, :index)}
-    />
+    <.live_component module={DanubianTradeWeb.ProductLive.FormComponent} id={@product.id || :new} title={@page_title}
+      action={@live_action} product={@product} return_to={Routes.product_index_path(@socket, :index)} />
   </.modal>
-<% end %>
+  <% end %>
 
-<script>
-  const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
-</script>
+    <script>
+      const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+    </script>
 
-<div id="scroll-to-top" class="bg-gray-800 hover:bg-gray-400" style="border-radius: 50%" onclick="goToTop()">
-  <div class="flex justify-center items-center" style="width: 50px; height: 50px">
-    <svg xmlns="http://www.w3.org/2000/svg" style="fill: white; width: 32px; height: 32px" viewBox="0 0 448 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"/></svg>
-  </div>
-</div>
-
-<div class="bg-white">
-  <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-    <div class="flex w-full justify-between">
-      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">List of products</h2>
-      <%= if @current_user do %>
-      <button class="inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-small rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-        <%= live_patch "New Product", to: Routes.product_index_path(@socket, :new) %>
-      </button>
-      <% end %>
+    <div id="scroll-to-top" class="bg-gray-800 hover:bg-gray-400" style="border-radius: 50%" onclick="goToTop()">
+      <div class="flex justify-center items-center" style="width: 50px; height: 50px">
+        <svg xmlns="http://www.w3.org/2000/svg" style="fill: white; width: 32px; height: 32px" viewBox="0 0 448 512">
+          <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+          <path
+            d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z" />
+        </svg>
+      </div>
     </div>
 
-    <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-    <%= for product <- @products do %>
-      <div class="group relative">
-        <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-          <img src={product.image} alt={product.description} class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+    <div class="bg-white">
+      <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="flex w-full justify-between">
+          <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">List of products</h2>
+          <%= if @current_user do %>
+            <%= live_patch "New Product" , to: Routes.product_index_path(@socket, :new),
+              class: "inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-small rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              %>
+              <% end %>
         </div>
-        <div class="mt-4 flex justify-between">
-          <div>
-            <h3 class="text-sm text-gray-700">
-              <a href={Routes.product_show_path(@socket, :show, product)}>
-                <span aria-hidden="true" class="absolute inset-0"></span>
-                <%= product.name %>
-              </a>
-            </h3>
-          </div>
-          <p class="text-sm font-medium text-gray-900"><%= product.price %> RON</p>
+
+        <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <%= for product <- @products do %>
+            <div class="group relative">
+              <div
+                class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                <img src={product.image} alt={product.description}
+                  class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+              </div>
+              <div class="mt-4 flex justify-between">
+                <div>
+                  <h3 class="text-sm text-gray-700">
+                    <a href={Routes.product_show_path(@socket, :show, product)}>
+                      <span aria-hidden="true" class="absolute inset-0"></span>
+                      <%= product.name %>
+                    </a>
+                  </h3>
+                </div>
+                <p class="text-sm font-medium text-gray-900">
+                  <%= product.price %> RON
+                </p>
+              </div>
+            </div>
+            <% end %>
         </div>
       </div>
-    <% end %>
     </div>
-  </div>
-</div>
