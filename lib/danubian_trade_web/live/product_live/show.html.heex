@@ -52,4 +52,6 @@
   </div>
 </div>
 
+<%= if edit?(@current_user, @product) do %>
 <span><%= live_patch "Edit", to: Routes.product_show_path(@socket, :edit, @product), class: "button" %></span> |
+<%= end %>

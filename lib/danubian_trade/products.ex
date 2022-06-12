@@ -19,7 +19,7 @@ defmodule DanubianTrade.Products do
   """
   def list_products do
     Repo.all(Product)
-      |> Repo.preload(:creator)
+    |> Repo.preload(:creator)
   end
 
   @doc """
@@ -37,6 +37,7 @@ defmodule DanubianTrade.Products do
 
   """
   def get_product!(id), do: Repo.get!(Product, id)
+                            |> Repo.preload(:creator)
 
   @doc """
   Creates a product.
