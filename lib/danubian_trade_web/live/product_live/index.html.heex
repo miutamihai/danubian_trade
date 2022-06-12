@@ -68,10 +68,19 @@
         <div class="flex w-full justify-between">
           <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">List of products</h2>
           <%= if @current_user do %>
-            <%= live_patch "New Product" , to: Routes.product_index_path(@socket, :new),
-              class: "inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-small rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-              %>
-              <% end %>
+            <div class="flex justify-between items-center">
+              <div class="mr-5">
+                <select id="countries" style="min-width: 160px" class="inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-small rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                  <option selected value={:all}>All products</option>
+                  <option value={:user}>My products</option>
+                  <option value={:non_user}>Other products</option>
+                </select>
+              </div>
+              <%= live_patch "New Product" , to: Routes.product_index_path(@socket, :new),
+                class: "inline-flex items-center justify-center px-3 py-1 border border-transparent text-base font-small rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                %>
+            </div>
+          <% end %>
         </div>
 
         <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
