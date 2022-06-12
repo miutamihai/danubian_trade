@@ -8,14 +8,14 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   def mount(params, session, socket) do
     current_user = find_current_user(session)
     product_count = DanubianTrade.Products.count_products()
-    current_page = params[:page] || 1
+    {current_page, _} = (Map.get(params, "page") || "1") |> Integer.parse()
 
-    {:ok, socket
-    |> assign(:current_page, current_page)
-    |> assign(:number_of_pages, div(product_count, 10))
-    |> assign(:current_user, current_user)
-    |> assign(:products, list_products())
-    }
+    {:ok,
+     socket
+     |> assign(:current_page, current_page)
+     |> assign(:number_of_pages, div(product_count, 10))
+     |> assign(:current_user, current_user)
+     |> assign(:products, list_products())}
   end
 
   @impl true
@@ -33,6 +33,13 @@ defmodule DanubianTradeWeb.ProductLive.Index do
     socket
     |> assign(:page_title, "New Product")
     |> assign(:product, %Product{})
+  end
+
+  defp apply_action(socket, :index, %{"page" => page}) do
+    {current_page, _} = (page || "1") |> Integer.parse()
+
+    socket
+    |> assign(:current_page, current_page)
   end
 
   defp apply_action(socket, :index, _params) do
