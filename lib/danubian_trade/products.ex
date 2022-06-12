@@ -18,9 +18,9 @@ defmodule DanubianTrade.Products do
 
   """
 
-  defp listing_query(offset) do
+  defp listing_query(offset, limit) do
     from p in Product,
-      limit: 10,
+      limit: ^limit,
       offset: ^offset
   end
 
@@ -34,8 +34,8 @@ defmodule DanubianTrade.Products do
     |> Repo.one()
   end
 
-  def list_products(offset \\ 0) do
-    listing_query(offset)
+  def list_products(offset \\ 0, limit \\ 8) do
+    listing_query(offset, limit)
     |> Repo.all()
     |> Repo.preload(:creator)
   end

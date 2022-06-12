@@ -4,6 +4,8 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   alias DanubianTrade.Products
   alias DanubianTrade.Products.Product
 
+  @page_size 8
+
   @impl true
   def mount(params, session, socket) do
     current_user = find_current_user(session)
@@ -13,7 +15,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
     {:ok,
      socket
      |> assign(:current_page, current_page)
-     |> assign(:number_of_pages, div(product_count, 10))
+     |> assign(:number_of_pages, div(product_count, @page_size))
      |> assign(:current_user, current_user)
      |> assign(:products, list_products())}
   end
@@ -40,6 +42,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
 
     socket
     |> assign(:current_page, current_page)
+    |> assign(:products, list_products(current_page * @page_size))
   end
 
   defp apply_action(socket, :index, _params) do
@@ -56,7 +59,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
     {:noreply, assign(socket, :products, list_products())}
   end
 
-  defp list_products do
-    Products.list_products()
+  defp list_products(current_page \\ 0) do
+    Products.list_products(current_page, @page_size)
   end
 end
