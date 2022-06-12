@@ -136,3 +136,7 @@
   font-size: 18px;
 }
 
+.aeterial {
+  pointer-events: none;
+  display: none;
+}
