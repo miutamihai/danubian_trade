@@ -3,6 +3,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
 
   alias DanubianTrade.Products
   alias DanubianTrade.Products.Product
+  alias DanubianTrade.Accounts.User
 
   @page_size 8
 
@@ -57,6 +58,34 @@ defmodule DanubianTradeWeb.ProductLive.Index do
     {:ok, _} = Products.delete_product(product)
 
     {:noreply, assign(socket, :products, list_products())}
+  end
+
+  @impl true
+  def handle_event("filter_change", %{"filter" => %{"filter" => value}}, socket) do
+    case value do
+      "all" ->
+        {:noreply, socket |> assign(:filter, :all) |> assign(:products, list_products())}
+
+      "user" ->
+        {:noreply,
+         socket
+         |> assign(:filter, :user)
+         |> assign(:products, user_products(socket.assigns.current_user))}
+
+      "non_user" ->
+        {:noreply,
+         socket
+         |> assign(:filter, :non_user)
+         |> assign(:products, excluding_user_products(socket.assigns.current_user))}
+    end
+  end
+
+  defp user_products(%User{email: email}) do
+    Products.by_email(email)
+  end
+
+  defp excluding_user_products(%User{email: email}) do
+    Products.by_email(email, :exclusive)
   end
 
   defp list_products(current_page \\ 0) do
