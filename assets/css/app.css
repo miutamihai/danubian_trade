@@ -138,5 +138,5 @@
 
 .aeterial {
   pointer-events: none;
-  display: none;
+  opacity: 0.4;
 }
