@@ -80,7 +80,7 @@
               </svg>
             </a>
             <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-            <%= for page <- 1..div(@product_count, 10) do %>
+            <%= for page <- 1..@number_of_pages do %>
             <a class={if page == @current_page, do: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium cursor-pointer", else: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium cursor-pointer" }>
                 <%= page %>
             </a>

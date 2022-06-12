@@ -12,7 +12,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
 
     {:ok, socket
     |> assign(:current_page, current_page)
-    |> assign(:product_count, product_count)
+    |> assign(:number_of_pages, div(product_count, 10))
     |> assign(:current_user, current_user)
     |> assign(:products, list_products())
     }
