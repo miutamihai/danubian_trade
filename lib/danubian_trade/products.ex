@@ -17,8 +17,16 @@ defmodule DanubianTrade.Products do
       [%Product{}, ...]
 
   """
-  def list_products do
-    Repo.all(Product)
+
+  defp listing_query(offset) do
+    from p in Product,
+    limit: 10,
+    offset: ^offset
+  end
+
+  def list_products(offset \\ 0) do
+    listing_query(offset)
+    |> Repo.all()
     |> Repo.preload(:creator)
   end
 
