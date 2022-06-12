@@ -20,8 +20,18 @@ defmodule DanubianTrade.Products do
 
   defp listing_query(offset) do
     from p in Product,
-    limit: 10,
-    offset: ^offset
+      limit: 10,
+      offset: ^offset
+  end
+
+  defp counting_query do
+    from p in Product,
+      select: count(p.id)
+  end
+
+  def count_products do
+    counting_query()
+    |> Repo.one()
   end
 
   def list_products(offset \\ 0) do
@@ -44,8 +54,10 @@ defmodule DanubianTrade.Products do
       ** (Ecto.NoResultsError)
 
   """
-  def get_product!(id), do: Repo.get!(Product, id)
-                            |> Repo.preload(:creator)
+  def get_product!(id),
+    do:
+      Repo.get!(Product, id)
+      |> Repo.preload(:creator)
 
   @doc """
   Creates a product.
