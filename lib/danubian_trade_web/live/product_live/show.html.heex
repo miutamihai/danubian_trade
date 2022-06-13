@@ -51,7 +51,7 @@
                   <div class="relative pt-1">
                     <.form let={f} for={:quantity} phx-change="update_quantity">
                       <label for="selected_quantity" class="form-label text-gray-900">Quantity: <%= @selected_quantity %></label>
-                      <%= range_input f, :quantity, min: 0, max: @product.quantity, step: 1, class: "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none"  %>
+                      <%= range_input f, :quantity, value: @selected_quantity, min: 0, max: @product.quantity, step: 1, class: "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none"  %>
                     </.form>
                   </div>
                   <button phx-click="add_to_bag"
