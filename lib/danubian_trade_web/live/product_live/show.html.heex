@@ -40,17 +40,25 @@
               <%= @product.price %> RON
             </p>
 
-            <div class="mt-10">
-              <%= if edit?(@current_user, @product) do %>
-                <%= live_patch "Edit" , to: Routes.product_show_path(@socket, :edit, @product),
-                  class: "mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  %>
-                  <% else %>
-                    <button phx-click="add_to_bag"
-                      class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
-                      to bag</button>
-                    <% end %>
-            </div>
+            <%= if edit?(@current_user, @product) do %>
+                <div class="mt-10">
+                  <%= live_patch "Edit" , to: Routes.product_show_path(@socket, :edit, @product),
+                    class: "mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    %>
+                </div>
+            <% else %>
+                <div class="mt-3">
+                  <div class="relative pt-1">
+                    <.form let={f} for={:quantity} phx-change="update_quantity">
+                      <label for="selected_quantity" class="form-label text-gray-900">Quantity: <%= @selected_quantity %></label>
+                      <%= range_input f, :quantity, min: 0, max: @product.quantity, step: 1, class: "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none"  %>
+                    </.form>
+                  </div>
+                  <button phx-click="add_to_bag"
+                    class="mt-1 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
+                    to bag</button>
+                </div>
+            <% end %>
           </div>
 
           <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">

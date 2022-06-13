@@ -14,17 +14,27 @@ defmodule DanubianTradeWeb.ProductLive.Show do
 
   @impl true
   def handle_event("add_to_bag", _, socket) do
-    IO.puts "THERE"
+    IO.puts("THERE")
 
     {:noreply, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_event("update_quantity", %{"quantity" => %{"quantity" => quantity}}, socket) do
     {:noreply,
      socket
+     |> assign(:selected_quantity, quantity)}
+  end
+
+  @impl true
+  def handle_params(%{"id" => id}, _, socket) do
+    product = Products.get_product!(id)
+
+    {:noreply,
+     socket
+     |> assign(:selected_quantity, product.quantity)
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:product, Products.get_product!(id))}
+     |> assign(:product, product)}
   end
 
   def edit?(%User{email: email}, %Product{creator: %User{email: creator_email}}) do
