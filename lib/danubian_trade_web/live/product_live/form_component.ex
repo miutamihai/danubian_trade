@@ -4,12 +4,13 @@ defmodule DanubianTradeWeb.ProductLive.FormComponent do
   alias DanubianTrade.Products
 
   @impl true
-  def update(%{product: product} = assigns, socket) do
+  def update(%{product: product, current_user: current_user} = assigns, socket) do
     changeset = Products.change_product(product)
 
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:current_user, current_user)
      |> assign(:changeset, changeset)}
   end
 
@@ -24,6 +25,10 @@ defmodule DanubianTradeWeb.ProductLive.FormComponent do
   end
 
   def handle_event("save", %{"product" => product_params}, socket) do
+    creator_id = socket.assigns.current_user.id
+    product_params = product_params
+      |> Map.put("creator_id", creator_id)
+
     save_product(socket, socket.assigns.action, product_params)
   end
 

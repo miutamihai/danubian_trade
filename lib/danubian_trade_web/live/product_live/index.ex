@@ -75,7 +75,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
 
     socket
     |> assign(:current_page, current_page)
-    |> assign(:products, list_products(current_page * @page_size))
+    |> assign(:products, list_products(current_page))
   end
 
   defp apply_action(socket, :index, _params) do
@@ -117,15 +117,20 @@ defmodule DanubianTradeWeb.ProductLive.Index do
       |> ensure_not_nil()
       |> div(@page_size)
 
-  defp user_products(%User{email: email}, current_page) do
-    Products.list_products(current_page, @page_size, email)
-  end
+  defp user_products(%User{email: email}, current_page),
+    do:
+      offset(current_page)
+      |> Products.list_products(@page_size, email)
 
-  defp excluding_user_products(%User{email: email}, current_page) do
-    Products.list_products(current_page, @page_size, email, :exclusive)
-  end
+  defp excluding_user_products(%User{email: email}, current_page),
+    do:
+      offset(current_page)
+      |> Products.list_products(@page_size, email, :exclusive)
 
-  defp list_products(current_page \\ 0) do
-    Products.list_products(current_page, @page_size)
-  end
+  defp list_products(current_page \\ 1),
+    do:
+      offset(current_page)
+      |> Products.list_products(@page_size)
+
+  defp offset(current_page), do: (current_page - 1) * @page_size
 end

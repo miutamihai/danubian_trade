@@ -29,7 +29,8 @@ defmodule DanubianTrade.Products do
   defp counting_query(email, :exclusive) do
     from product in Product,
       join: user in assoc(product, :creator),
-      where: user.email != ^email
+      where: user.email != ^email,
+      select: count(product.id)
   end
 
   defp counting_query(email) do

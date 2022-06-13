@@ -22,6 +22,10 @@
         <%= text_input f, :price, required: true, step: "any", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Price" %>
         <%= error_tag f, :price %>
 
+        <label for="quantity" class="sr-only">Quantity</label>
+        <%= text_input f, :quantity, required: true, step: "any", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Quantity" %>
+        <%= error_tag f, :quantity %>
+
         <label for="image" class="sr-only">Image</label>
         <%= text_input f, :image, required: true, step: "any", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Image url" %>
         <%= error_tag f, :image %>

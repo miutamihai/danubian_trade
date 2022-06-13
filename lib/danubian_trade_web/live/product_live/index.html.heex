@@ -1,7 +1,7 @@
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.product_index_path(@socket, :index)}>
     <.live_component module={DanubianTradeWeb.ProductLive.FormComponent} id={@product.id || :new} title={@page_title}
-      action={@live_action} product={@product} return_to={Routes.product_index_path(@socket, :index)} />
+      action={@live_action} product={@product} current_user={@current_user || :never} return_to={Routes.product_index_path(@socket, :index)} />
   </.modal>
   <% end %>
 
@@ -84,8 +84,8 @@
           <% end %>
         </div>
 
-        <%= if @number_of_pages > 0 do %>
-          <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <%= if length(@products) > 0 do %>
+          <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8" style="min-height: 70vh">
             <%= for product <- @products do %>
               <div class="group relative">
                 <div
