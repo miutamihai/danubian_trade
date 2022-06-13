@@ -11,10 +11,12 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   def mount(params, session, socket) do
     current_user = find_current_user(session)
     {current_page, _} = (Map.get(params, "page") || "1") |> Integer.parse()
+    filter = Map.get(params, "filter") || "all"
 
     {:ok,
      socket
      |> assign(:current_page, current_page)
+     |> assign(:filter, filter)
      |> assign(:number_of_pages, page_count())
      |> assign(:current_user, current_user)
      |> assign(:products, list_products())}
@@ -35,6 +37,37 @@ defmodule DanubianTradeWeb.ProductLive.Index do
     socket
     |> assign(:page_title, "New Product")
     |> assign(:product, %Product{})
+  end
+
+  defp apply_action(socket, :index, %{"filter" => filter}) do
+    case filter do
+      "all" ->
+        socket
+        |> assign(:filter, :all)
+        |> assign(:current_page, 1)
+        |> assign(:number_of_pages, page_count())
+        |> assign(:products, list_products())
+
+      "user" ->
+        socket
+        |> assign(:filter, :user)
+        |> assign(:current_page, 1)
+        |> assign(:number_of_pages, page_count(socket.assigns.current_user))
+        |> assign(
+          :products,
+          user_products(socket.assigns.current_user, socket.assigns.current_page)
+        )
+
+      "non_user" ->
+        socket
+        |> assign(:filter, :non_user)
+        |> assign(:current_page, 1)
+        |> assign(:number_of_pages, page_count(socket.assigns.current_user, :exclusive))
+        |> assign(
+          :products,
+          excluding_user_products(socket.assigns.current_user, socket.assigns.current_page)
+        )
+    end
   end
 
   defp apply_action(socket, :index, %{"page" => page}) do
@@ -61,37 +94,7 @@ defmodule DanubianTradeWeb.ProductLive.Index do
 
   @impl true
   def handle_event("filter_change", %{"filter" => %{"filter" => value}}, socket) do
-    case value do
-      "all" ->
-        {:noreply,
-         socket
-         |> assign(:filter, :all)
-         |> assign(:current_page, 1)
-         |> assign(:number_of_pages, page_count())
-         |> assign(:products, list_products())}
-
-      "user" ->
-        {:noreply,
-         socket
-         |> assign(:filter, :user)
-         |> assign(:current_page, 1)
-         |> assign(:number_of_pages, page_count(socket.assigns.current_user))
-         |> assign(
-           :products,
-           user_products(socket.assigns.current_user, socket.assigns.current_page)
-         )}
-
-      "non_user" ->
-        {:noreply,
-         socket
-         |> assign(:filter, :non_user)
-         |> assign(:current_page, 1)
-         |> assign(:number_of_pages, page_count(socket.assigns.current_user, :exclusive))
-         |> assign(
-           :products,
-           excluding_user_products(socket.assigns.current_user, socket.assigns.current_page)
-         )}
-    end
+    {:noreply, redirect(socket, to: "/products?filter=#{value}")}
   end
 
   defp ensure_not_nil(value), do: value || 0
