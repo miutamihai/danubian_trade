@@ -40,17 +40,17 @@
               <%= @product.price %> RON
             </p>
 
-            <form class="mt-10">
+            <div class="mt-10">
               <%= if edit?(@current_user, @product) do %>
                 <%= live_patch "Edit" , to: Routes.product_show_path(@socket, :edit, @product),
                   class: "mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   %>
                   <% else %>
-                    <button type="submit"
+                    <button phx-click="add_to_bag"
                       class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
                       to bag</button>
                     <% end %>
-            </form>
+            </div>
           </div>
 
           <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">

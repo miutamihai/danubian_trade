@@ -13,6 +13,13 @@ defmodule DanubianTradeWeb.ProductLive.Show do
   end
 
   @impl true
+  def handle_event("add_to_bag", _, socket) do
+    IO.puts "THERE"
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket
