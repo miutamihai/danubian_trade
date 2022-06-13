@@ -12,6 +12,9 @@
     "/assets/app.js")}></script>
 </head>
 <body class="h-full">
+
+<DanubianTradeWeb.Cart.render />
+
 <div class="min-h-full">
     <nav class="bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,6 +52,8 @@
                                  tabindex="-1" id="dropdown" hidden>
                                 <span class="block px-4 py-2 text-sm text-gray-700"
                                       id="user-menu-item-0"><%= @current_user.email %></span>
+
+                                <button id="cart_button" class="block px-4 py-2 text-sm text-gray-700">My cart</button>
 
                                 <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "block px-4 py-2 text-sm text-gray-700" %>
 
