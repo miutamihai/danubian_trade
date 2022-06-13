@@ -10,13 +10,12 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   @impl true
   def mount(params, session, socket) do
     current_user = find_current_user(session)
-    product_count = DanubianTrade.Products.count_products()
     {current_page, _} = (Map.get(params, "page") || "1") |> Integer.parse()
 
     {:ok,
      socket
      |> assign(:current_page, current_page)
-     |> assign(:number_of_pages, div(product_count, @page_size))
+     |> assign(:number_of_pages, page_count())
      |> assign(:current_user, current_user)
      |> assign(:products, list_products())}
   end
@@ -64,21 +63,56 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   def handle_event("filter_change", %{"filter" => %{"filter" => value}}, socket) do
     case value do
       "all" ->
-        {:noreply, socket |> assign(:filter, :all) |> assign(:products, list_products())}
+        {:noreply,
+         socket
+         |> assign(:filter, :all)
+         |> assign(:current_page, 1)
+         |> assign(:number_of_pages, page_count())
+         |> assign(:products, list_products())}
 
       "user" ->
         {:noreply,
          socket
          |> assign(:filter, :user)
-         |> assign(:products, user_products(socket.assigns.current_user, socket.assigns.current_page))}
+         |> assign(:current_page, 1)
+         |> assign(:number_of_pages, page_count(socket.assigns.current_user))
+         |> assign(
+           :products,
+           user_products(socket.assigns.current_user, socket.assigns.current_page)
+         )}
 
       "non_user" ->
         {:noreply,
          socket
          |> assign(:filter, :non_user)
-         |> assign(:products, excluding_user_products(socket.assigns.current_user, socket.assigns.current_page))}
+         |> assign(:current_page, 1)
+         |> assign(:number_of_pages, page_count(socket.assigns.current_user, :exclusive))
+         |> assign(
+           :products,
+           excluding_user_products(socket.assigns.current_user, socket.assigns.current_page)
+         )}
     end
   end
+
+  defp ensure_not_nil(value), do: value || 0
+
+  defp page_count(%User{email: email}, :exclusive),
+    do:
+      Products.count_products(email, :exclusive)
+      |> ensure_not_nil()
+      |> div(@page_size)
+
+  defp page_count(%User{email: email}),
+    do:
+      Products.count_products(email)
+      |> ensure_not_nil()
+      |> div(@page_size)
+
+  defp page_count,
+    do:
+      Products.count_products()
+      |> ensure_not_nil()
+      |> div(@page_size)
 
   defp user_products(%User{email: email}, current_page) do
     Products.list_products(current_page, @page_size, email)

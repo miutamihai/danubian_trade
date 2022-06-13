@@ -26,9 +26,32 @@ defmodule DanubianTrade.Products do
       offset: ^offset
   end
 
+  defp counting_query(email, :exclusive) do
+    from product in Product,
+      join: user in assoc(product, :creator),
+      where: user.email != ^email
+  end
+
+  defp counting_query(email) do
+    from product in Product,
+      join: user in assoc(product, :creator),
+      where: user.email == ^email,
+      select: count(product.id)
+  end
+
   defp counting_query do
-    from p in Product,
-      select: count(p.id)
+    from product in Product,
+      select: count(product.id)
+  end
+
+  def count_products(email, :exclusive) do
+    counting_query(email, :exclusive)
+      |> Repo.one()
+  end
+
+  def count_products(email) do
+    counting_query(email)
+      |> Repo.one()
   end
 
   def count_products do
