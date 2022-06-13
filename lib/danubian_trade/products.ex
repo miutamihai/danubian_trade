@@ -4,6 +4,22 @@ defmodule DanubianTrade.Products do
 
   alias DanubianTrade.Products.Product
 
+  defp listing_query(offset, limit, email, :exclusive) do
+    from product in Product,
+      join: user in assoc(product, :creator),
+      where: user.email != ^email,
+      limit: ^limit,
+      offset: ^offset
+  end
+
+  defp listing_query(offset, limit, email) do
+    from product in Product,
+      join: user in assoc(product, :creator),
+      where: user.email == ^email,
+      limit: ^limit,
+      offset: ^offset
+  end
+
   defp listing_query(offset, limit) do
     from p in Product,
       limit: ^limit,
@@ -15,33 +31,21 @@ defmodule DanubianTrade.Products do
       select: count(p.id)
   end
 
-  defp by_email_query(email) do
-    from product in Product,
-      join: user in assoc(product, :creator),
-      where: user.email == ^email
-  end
-
-  defp excluding_email_query(email) do
-    from product in Product,
-      join: user in assoc(product, :creator),
-      where: user.email != ^email
-  end
-
-  def by_email(email, :exclusive) do
-    excluding_email_query(email)
-    |> Repo.all()
-    |> Repo.preload(:creator)
-  end
-
-  def by_email(email) do
-    by_email_query(email)
-    |> Repo.all()
-    |> Repo.preload(:creator)
-  end
-
   def count_products do
     counting_query()
     |> Repo.one()
+  end
+
+  def list_products(offset, limit, email, :exclusive) do
+    listing_query(offset, limit, email, :exclusive)
+      |> Repo.all()
+      |> Repo.preload(:creator)
+  end
+
+  def list_products(offset, limit, email) do
+    listing_query(offset, limit, email)
+      |> Repo.all()
+      |> Repo.preload(:creator)
   end
 
   def list_products(offset \\ 0, limit \\ 8) do

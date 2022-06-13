@@ -70,22 +70,22 @@ defmodule DanubianTradeWeb.ProductLive.Index do
         {:noreply,
          socket
          |> assign(:filter, :user)
-         |> assign(:products, user_products(socket.assigns.current_user))}
+         |> assign(:products, user_products(socket.assigns.current_user, socket.assigns.current_page))}
 
       "non_user" ->
         {:noreply,
          socket
          |> assign(:filter, :non_user)
-         |> assign(:products, excluding_user_products(socket.assigns.current_user))}
+         |> assign(:products, excluding_user_products(socket.assigns.current_user, socket.assigns.current_page))}
     end
   end
 
-  defp user_products(%User{email: email}) do
-    Products.by_email(email)
+  defp user_products(%User{email: email}, current_page) do
+    Products.list_products(current_page, @page_size, email)
   end
 
-  defp excluding_user_products(%User{email: email}) do
-    Products.by_email(email, :exclusive)
+  defp excluding_user_products(%User{email: email}, current_page) do
+    Products.list_products(current_page, @page_size, email, :exclusive)
   end
 
   defp list_products(current_page \\ 0) do
