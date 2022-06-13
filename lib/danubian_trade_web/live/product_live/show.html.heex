@@ -54,9 +54,9 @@
                       <%= range_input f, :quantity, value: @selected_quantity, min: 0, max: @product.quantity, step: 1, class: "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none"  %>
                     </.form>
                   </div>
-                  <button phx-click="add_to_bag"
-                    class="mt-1 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
-                    to bag</button>
+                  <button phx-click="add_to_bag" class={(if @selected_quantity == "0", do: "aeterial ", else: "") <> "mt-1 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"}>
+                    Add to bag
+                  </button>
                 </div>
             <% end %>
           </div>
