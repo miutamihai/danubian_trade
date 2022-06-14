@@ -109,8 +109,6 @@ defmodule DanubianTradeWeb.Cart do
 
   defp calculate_subtotal(assigns) do
     subtotal = Enum.reduce(assigns.cart_products, 0, fn %{total: total}, acc -> Decimal.add(acc, total) end)
-    IO.puts "Subtotal: "
-    IO.inspect subtotal
 
     assigns
       |> assign(:subtotal, subtotal)
