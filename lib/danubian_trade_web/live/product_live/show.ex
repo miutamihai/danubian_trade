@@ -22,8 +22,13 @@ defmodule DanubianTradeWeb.ProductLive.Show do
     }
 
     Carts.create_cart(cart_input)
+    product = Products.get_product!(socket.assigns.product.id)
 
-    {:noreply, socket |> put_flash(:info, "Product added to cart successfully")}
+    {:noreply, socket
+    |> assign(:selected_quantity, "#{product.quantity}")
+    |> assign(:product, product)
+    |> put_flash(:info, "Product added to cart successfully")
+  }
   end
 
   @impl true
