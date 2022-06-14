@@ -50,9 +50,10 @@ defmodule DanubianTrade.Orders do
 
   """
   def create_order(attrs \\ %{}) do
-    %Order{}
-    |> Order.changeset(attrs)
-    |> Repo.insert()
+    DanubianTrade.Repo.query!(
+      "call add_order(?, ?)",
+      [attrs.order_number, attrs.cart_id]
+    )
   end
 
   @doc """

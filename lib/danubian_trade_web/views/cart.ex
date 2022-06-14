@@ -22,6 +22,16 @@ defmodule DanubianTradeWeb.Cart do
             })
             .then(() => location.reload())
         }
+        const addOrder = userId => {
+            let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+            fetch(`/add_order/${userId}`, {
+              method: 'POST',
+              headers: {
+                'x-csrf-token': csrfToken,
+              }
+            })
+            .then(() => location.reload())
+        }
 
       </script>
       <div id="cart" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" style="display: none">
@@ -105,7 +115,7 @@ defmodule DanubianTradeWeb.Cart do
                                   </div>
                                   <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                   <div class="mt-6">
-                                      <a href="#"
+                                      <a onclick={"addOrder(#{@current_user.id})"} style="cursor: pointer"
                                           class={(if @cart_products |> length > 0, do: "", else: "aeterial ") <> "flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"}>Checkout</a>
                                   </div>
                                   <div class="mt-6 flex justify-center text-center text-sm text-gray-500">

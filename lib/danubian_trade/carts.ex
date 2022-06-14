@@ -103,6 +103,12 @@ defmodule DanubianTrade.Carts do
     Cart.changeset(cart, attrs)
   end
 
+  def get_user_cart_id(user_id) do
+    {:ok, %MyXQL.Result{rows: rows}} = Repo.query("select get_user_cart_id(?)", [user_id])
+
+    Enum.at(rows, 0) |> Enum.at(0)
+  end
+
   def get_user_cart_products(user_id) do
     {:ok, %MyXQL.Result{rows: rows}} = Repo.query("call get_user_cart_products(?)", [user_id])
 

@@ -28,6 +28,7 @@ defmodule DanubianTradeWeb.Router do
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
     post "/remove_product/:user_id/:id", RemoveProductController, :index
+    post "/add_order/:user_id", AddOrderController, :index
     live "/orders", OrderLive.Index, :index
     live "/orders/id", OrderLive.Show, :show
   end
