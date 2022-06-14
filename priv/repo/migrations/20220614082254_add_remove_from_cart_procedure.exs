@@ -14,6 +14,7 @@ defmodule DanubianTrade.Repo.Migrations.AddRemoveFromCartProcedure do
       select id into cart_id from carts where user_id = user_id_input;
 
       delete from cart_products where cart_id = cart_id and product_id = product_id_input;
+      commit;
       end;
     """
   end

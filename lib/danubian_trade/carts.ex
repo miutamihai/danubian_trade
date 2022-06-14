@@ -117,4 +117,11 @@ defmodule DanubianTrade.Carts do
       }
     end)
   end
+
+  def remove_item_from_cart(attrs \\ %{}) do
+    DanubianTrade.Repo.query!(
+      "call remove_from_cart(?, ?)",
+      [attrs.product_id, attrs.user_id]
+    )
+  end
 end

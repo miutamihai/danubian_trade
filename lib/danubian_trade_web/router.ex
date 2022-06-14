@@ -27,6 +27,7 @@ defmodule DanubianTradeWeb.Router do
 
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
+    post "/remove_product/:user_id/:id", RemoveProductController, :index
   end
 
   # Other scopes may use custom stacks.

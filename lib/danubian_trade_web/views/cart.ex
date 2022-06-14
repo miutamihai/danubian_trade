@@ -3,14 +3,26 @@ defmodule DanubianTradeWeb.Cart do
   alias DanubianTrade.Carts
 
   def render(assigns) do
-    assigns = get_cart_products(assigns)
-        |> calculate_subtotal()
+    assigns =
+      get_cart_products(assigns)
+      |> calculate_subtotal()
 
     ~H"""
       <script>
         const closeCart = () => {
           document.getElementById('cart').style.display = 'none';
         }
+        const removeItemFromCart = (id, userId) =>{
+            let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+            fetch(`/remove_product/${userId}/${id}`, {
+              method: 'POST',
+              headers: {
+                'x-csrf-token': csrfToken,
+              }
+            })
+            .then(() => location.reload())
+        }
+
       </script>
       <div id="cart" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" style="display: none">
           <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -61,7 +73,7 @@ defmodule DanubianTradeWeb.Cart do
                                                             <p class="text-gray-500">Qty <%= product.quantity %></p>
 
                                                             <div class="flex">
-                                                                <button type="button"
+                                                                <button type="button" onclick={"removeItemFromCart(#{product.id}, #{@current_user.id})"}
                                                                     class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                             </div>
                                                         </div>
@@ -104,13 +116,14 @@ defmodule DanubianTradeWeb.Cart do
     cart_products = Carts.get_user_cart_products(assigns.current_user.id)
 
     assigns
-      |> assign(:cart_products, cart_products)
+    |> assign(:cart_products, cart_products)
   end
 
   defp calculate_subtotal(assigns) do
-    subtotal = Enum.reduce(assigns.cart_products, 0, fn %{total: total}, acc -> Decimal.add(acc, total) end)
+    subtotal =
+      Enum.reduce(assigns.cart_products, 0, fn %{total: total}, acc -> Decimal.add(acc, total) end)
 
     assigns
-      |> assign(:subtotal, subtotal)
+    |> assign(:subtotal, subtotal)
   end
 end
