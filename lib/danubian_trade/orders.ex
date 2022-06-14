@@ -8,17 +8,14 @@ defmodule DanubianTrade.Orders do
 
   alias DanubianTrade.Orders.Order
 
-  @doc """
-  Returns the list of orders.
+  defp listing_query(user_id) do
+    from order in Order,
+    where: order.user_id == ^user_id
+  end
 
-  ## Examples
-
-      iex> list_orders()
-      [%Order{}, ...]
-
-  """
-  def list_orders do
-    Repo.all(Order)
+  def list_orders(user_id) do
+    listing_query(user_id)
+      |> Repo.all()
       |> Repo.preload(:products)
   end
 

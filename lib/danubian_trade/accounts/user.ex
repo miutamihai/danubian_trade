@@ -9,6 +9,7 @@ defmodule DanubianTrade.Accounts.User do
     field :confirmed_at, :naive_datetime
     has_many :carts, DanubianTrade.Carts.Cart
     has_many :products, DanubianTrade.Products.Product
+    has_many :orders, DanubianTrade.Orders.Order
 
     timestamps()
   end

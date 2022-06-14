@@ -4,8 +4,13 @@ defmodule DanubianTradeWeb.OrderLive.Index do
   alias DanubianTrade.Orders
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :orders, list_orders())}
+  def mount(_params, session, socket) do
+    current_user = find_current_user(session)
+
+    {:ok, socket
+    |> assign(:current_user, current_user)
+    |> assign(:orders, list_orders(current_user))
+  }
   end
 
   @impl true
@@ -18,8 +23,8 @@ defmodule DanubianTradeWeb.OrderLive.Index do
     |> assign(:page_title, "Listing Orders")
   end
 
-  defp list_orders do
-    Orders.list_orders()
+  defp list_orders(current_user) do
+    Orders.list_orders(current_user.id)
     |> Enum.map(fn order ->
       %{
         order

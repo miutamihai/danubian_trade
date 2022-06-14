@@ -51,9 +51,15 @@
       <% end %>
       <% else %>
         <div class="flex items-center justify-center w-full" style="height: 70vh">
-          <.live_component module={DanubianTradeWeb.ProductLive.EmptyState} id={:empty}>
-            <:message>No orders found. Try ordering something first!</:message>
-          </.live_component>
+          <div class="relative p-8 text-center border border-gray-200 rounded-lg">
+            <h2 class="text-2xl font-medium">
+              There's nothing here...
+            </h2>
+          
+            <p class="mt-4 text-sm text-gray-500">
+              No orders found. Try ordering something first!
+            </p>
+          </div>
         </div>
     <% end %>
   </div>

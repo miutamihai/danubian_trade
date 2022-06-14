@@ -8,6 +8,8 @@ defmodule DanubianTrade.Orders.Order do
     many_to_many :products, DanubianTrade.Products.Product,
       join_through: DanubianTrade.Orders.OrderProducts
 
+    belongs_to :user, DanubianTrade.Accounts.User
+
     timestamps()
   end
 
