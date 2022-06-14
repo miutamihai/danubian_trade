@@ -57,8 +57,6 @@
 
                                 <button id="cart_button" class="block px-4 py-2 text-sm text-gray-700">My cart</button>
 
-                                <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "block px-4 py-2 text-sm text-gray-700" %>
-
                                 <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "block px-4 py-2 text-sm text-gray-700" %>
                             </div>
                         </div>
