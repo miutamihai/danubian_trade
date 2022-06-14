@@ -114,18 +114,21 @@ defmodule DanubianTradeWeb.ProductLive.Index do
       Products.count_products(email, :exclusive)
       |> ensure_not_nil()
       |> div(@page_size)
+      |> Kernel.+(1)
 
   defp page_count(%User{email: email}),
     do:
       Products.count_products(email)
       |> ensure_not_nil()
       |> div(@page_size)
+      |> Kernel.+(1)
 
   defp page_count,
     do:
       Products.count_products()
       |> ensure_not_nil()
       |> div(@page_size)
+      |> Kernel.+(1)
 
   defp user_products(%User{email: email}, current_page),
     do:
