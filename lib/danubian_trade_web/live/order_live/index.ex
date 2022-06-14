@@ -20,5 +20,11 @@ defmodule DanubianTradeWeb.OrderLive.Index do
 
   defp list_orders do
     Orders.list_orders()
+    |> Enum.map(fn order ->
+      %{
+        order
+        | total_price: order.total_price |> Decimal.from_float() |> Decimal.to_string(:normal)
+      }
+    end)
   end
 end

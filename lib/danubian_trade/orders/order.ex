@@ -4,6 +4,7 @@ defmodule DanubianTrade.Orders.Order do
 
   schema "orders" do
     field :number, :string
+    field :total_price, :float
     many_to_many :products, DanubianTrade.Products.Product,
       join_through: DanubianTrade.Orders.OrderProducts
 
