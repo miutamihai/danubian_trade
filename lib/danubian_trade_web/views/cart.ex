@@ -4,6 +4,7 @@ defmodule DanubianTradeWeb.Cart do
 
   def render(assigns) do
     assigns = get_cart_products(assigns)
+        |> calculate_subtotal()
 
     ~H"""
       <script>
@@ -75,7 +76,7 @@ defmodule DanubianTradeWeb.Cart do
                               <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
                                   <div class="flex justify-between text-base font-medium text-gray-900">
                                       <p>Subtotal</p>
-                                      <p>$262.00</p>
+                                      <p><%= @subtotal %> RON</p>
                                   </div>
                                   <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                   <div class="mt-6">
@@ -104,5 +105,14 @@ defmodule DanubianTradeWeb.Cart do
 
     assigns
       |> assign(:cart_products, cart_products)
+  end
+
+  defp calculate_subtotal(assigns) do
+    subtotal = Enum.reduce(assigns.cart_products, 0, fn %{total: total}, acc -> Decimal.add(acc, total) end)
+    IO.puts "Subtotal: "
+    IO.inspect subtotal
+
+    assigns
+      |> assign(:subtotal, subtotal)
   end
 end
