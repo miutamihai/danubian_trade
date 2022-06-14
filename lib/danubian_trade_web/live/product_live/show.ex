@@ -7,7 +7,6 @@ defmodule DanubianTradeWeb.ProductLive.Show do
   alias DanubianTrade.Carts
 
   @impl true
-  @spec mount(any, nil | maybe_improper_list | map, map) :: {:ok, map}
   def mount(_params, session, socket) do
     current_user = find_current_user(session)
 
@@ -15,7 +14,7 @@ defmodule DanubianTradeWeb.ProductLive.Show do
   end
 
   @impl true
-  def handle_event("add_to_bag", _, socket), do: add_to_bag(socket, socket.assigns.current_user.confirmed_at)
+  def handle_event("add_to_bag", _, socket), do: add_to_bag(socket, socket.assigns.current_user)
 
   @impl true
   def handle_event("update_quantity", %{"quantity" => %{"quantity" => quantity}}, socket) do
@@ -41,9 +40,14 @@ defmodule DanubianTradeWeb.ProductLive.Show do
 
   def edit?(_, _), do: false
 
-  defp add_to_bag(socket, nil), do: {:noreply, socket |> put_flash(
+  defp add_to_bag(socket, %User{confirmed_at: nil}), do: {:noreply, socket |> put_flash(
     :error,
     "You must confirm your email address before you can add a product to your cart."
+  )}
+
+  defp add_to_bag(socket, nil), do: {:noreply, socket |> put_flash(
+    :error,
+    "You must be logged in before you can add a product to your cart."
   )}
 
   defp add_to_bag(socket, _) do
