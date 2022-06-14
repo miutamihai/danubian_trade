@@ -16,7 +16,6 @@ defmodule DanubianTradeWeb.OrderLive.Index do
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Orders")
-    |> assign(:order, nil)
   end
 
   defp list_orders do

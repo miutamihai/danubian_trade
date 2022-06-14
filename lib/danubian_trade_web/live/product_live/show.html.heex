@@ -5,9 +5,13 @@
   </.modal>
   <% end %>
 
+    <script>
+      const goBack = () => window.history.back()
+    </script>
+
     <div class="bg-white">
       <div>
-        <a href={Routes.product_index_path(@socket, :index)} style="height: 50px; width: 50px; border-radius: 50%;"
+        <a onclick="goBack()" style="height: 50px; width: 50px; border-radius: 50%;"
           role="button" class="hover:bg-gray-400 bg-gray-800 flex items-center justify-center mt-3 ml-3">
           <svg style="height: 32px; width: 32px; fill: white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->

@@ -19,6 +19,7 @@ defmodule DanubianTrade.Orders do
   """
   def list_orders do
     Repo.all(Order)
+      |> Repo.preload(:products)
   end
 
   @doc """
