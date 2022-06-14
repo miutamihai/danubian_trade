@@ -51,7 +51,8 @@ defmodule DanubianTrade.Carts do
   """
   def create_cart(attrs \\ %{}) do
     DanubianTrade.Repo.query!(
-       "call add_cart(?, ?, ?)", [attrs.user_id, attrs.product_id, attrs.quantity]
+      "call add_cart(?, ?, ?)",
+      [attrs.user_id, attrs.product_id, attrs.quantity]
     )
   end
 
@@ -100,5 +101,20 @@ defmodule DanubianTrade.Carts do
   """
   def change_cart(%Cart{} = cart, attrs \\ %{}) do
     Cart.changeset(cart, attrs)
+  end
+
+  def get_user_cart_products(user_id) do
+    {:ok, %MyXQL.Result{rows: rows}} = Repo.query("call get_user_cart_products(?)", [user_id])
+
+    rows
+    |> Enum.map(fn row ->
+      %{
+        id: Enum.at(row, 0),
+        name: Enum.at(row, 1),
+        image: Enum.at(row, 2),
+        quantity: Enum.at(row, 3),
+        total: Enum.at(row, 4)
+      }
+    end)
   end
 end
