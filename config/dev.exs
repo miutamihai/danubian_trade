@@ -2,8 +2,9 @@ import Config
 
 # Configure your database
 config :danubian_trade, DanubianTrade.Repo,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MyXQL,
+  username: "root",
+  password: "root",
   database: "danubian_trade",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

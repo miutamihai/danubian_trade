@@ -4,6 +4,7 @@ defmodule DanubianTradeWeb.ProductLive.Show do
   alias DanubianTrade.Accounts.User
   alias DanubianTrade.Products.Product
   alias DanubianTrade.Products
+  alias DanubianTrade.Carts
 
   @impl true
   def mount(_params, session, socket) do
@@ -14,9 +15,15 @@ defmodule DanubianTradeWeb.ProductLive.Show do
 
   @impl true
   def handle_event("add_to_bag", _, socket) do
-    IO.puts("THERE")
+    cart_input = %{
+      user_id: socket.assigns.current_user.id,
+      product_id: socket.assigns.product.id,
+      quantity: socket.assigns.selected_quantity
+    }
 
-    {:noreply, socket}
+    Carts.create_cart(cart_input)
+
+    {:noreply, socket |> put_flash(:info, "Product added to cart successfully")}
   end
 
   @impl true

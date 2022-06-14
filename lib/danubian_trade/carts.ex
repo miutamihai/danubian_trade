@@ -50,9 +50,9 @@ defmodule DanubianTrade.Carts do
 
   """
   def create_cart(attrs \\ %{}) do
-    %Cart{}
-    |> Cart.changeset(attrs)
-    |> Repo.insert()
+    DanubianTrade.Repo.query!(
+       "call add_cart(?, ?, ?)", [attrs.user_id, attrs.product_id, attrs.quantity]
+    )
   end
 
   @doc """
