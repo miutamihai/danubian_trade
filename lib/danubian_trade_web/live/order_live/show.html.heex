@@ -1,0 +1,13 @@
+<h1>Show Order</h1>
+
+<ul>
+
+  <li>
+    <strong>Number:</strong>
+    <%= @order.number %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.order_show_path(@socket, :edit, @order), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.order_index_path(@socket, :index) %></span>

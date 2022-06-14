@@ -1,0 +1,24 @@
+<h1>Listing Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="orders">
+    <%= for order <- @orders do %>
+      <tr id={"order-#{order.id}"}>
+        <td><%= order.number %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.order_show_path(@socket, :show, order) %></span>
+          <span><%= live_patch "Edit", to: Routes.order_index_path(@socket, :edit, order) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: order.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
