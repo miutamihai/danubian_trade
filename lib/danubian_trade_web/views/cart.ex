@@ -49,6 +49,7 @@ defmodule DanubianTradeWeb.Cart do
 
                                   <div class="mt-8">
                                       <div class="flow-root">
+                                        <%= if length(@cart_products) > 0 do %>
                                           <ul role="list" class="-my-6 divide-y divide-gray-200">
                                             <%= for product <- @cart_products do %>
                                                 <li class="flex py-6">
@@ -81,6 +82,18 @@ defmodule DanubianTradeWeb.Cart do
                                                 </li>
                                             <% end %>
                                           </ul>
+                                          <% else %>
+                                            <div style="min-height: 60vh" class="flex items-center justify-center">
+                                                <div class="relative p-8 text-center border border-gray-200 rounded-lg">
+                                                    <h2 class="text-2xl font-medium">
+                                                    There's nothing here...
+                                                    </h2>
+                                                    <p class="mt-4 text-sm text-gray-500">
+                                                        You can add products to your cart by clicking on the "Add to bag" button
+                                                    </p>
+                                                </div>
+                                            </div>
+                                          <% end %>
                                       </div>
                                   </div>
                               </div>
