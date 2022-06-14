@@ -39,7 +39,7 @@ defmodule DanubianTradeWeb.ProductLive.Show do
 
     {:noreply,
      socket
-     |> assign(:selected_quantity, product.quantity)
+     |> assign(:selected_quantity, "#{product.quantity}")
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:product, product)}
   end
