@@ -7,6 +7,7 @@ defmodule DanubianTradeWeb.ProductLive.Show do
   alias DanubianTrade.Carts
 
   @impl true
+  @spec mount(any, nil | maybe_improper_list | map, map) :: {:ok, map}
   def mount(_params, session, socket) do
     current_user = find_current_user(session)
 
@@ -22,12 +23,9 @@ defmodule DanubianTradeWeb.ProductLive.Show do
     }
 
     Carts.create_cart(cart_input)
-    product = Products.get_product!(socket.assigns.product.id)
 
     {:noreply, socket
-    |> assign(:selected_quantity, "#{product.quantity}")
-    |> assign(:product, product)
-    |> put_flash(:info, "Product added to cart successfully")
+    |> push_event("hard-reload", %{})
   }
   end
 
