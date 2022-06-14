@@ -1,4 +1,4 @@
-<%= if @live_action in [:new, :edit] do %>
+<%= if @live_action in [:new, :edit] and @current_user.confirmed_at do %>
   <.modal return_to={Routes.product_index_path(@socket, :index)}>
     <.live_component module={DanubianTradeWeb.ProductLive.FormComponent} id={@product.id || :new} title={@page_title}
       action={@live_action} product={@product} current_user={@current_user || :never} return_to={Routes.product_index_path(@socket, :index)} />

@@ -34,9 +34,19 @@ defmodule DanubianTradeWeb.ProductLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Product")
-    |> assign(:product, %Product{})
+    case socket.assigns.current_user.confirmed_at do
+      nil ->
+        socket
+        |> put_flash(
+          :error,
+          "You must confirm your email address before you can create a product."
+        )
+
+      _ ->
+        socket
+        |> assign(:page_title, "New Product")
+        |> assign(:product, %Product{})
+    end
   end
 
   defp apply_action(socket, :index, %{"filter" => filter}) do
