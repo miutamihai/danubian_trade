@@ -15,7 +15,8 @@ CREATE TABLE `user_tokens` (
     `token` blob,
     `context` varchar(255),
     `sent_to` varchar(255),
-    `inserted_at` datetime
+    `inserted_at` datetime,
+    constraint `fk_users_user_tokens` foreign key (`user_id`) references `users` (`id`)
 );
 
 CREATE TABLE `products` (
@@ -27,7 +28,8 @@ CREATE TABLE `products` (
     `updated_at` datetime,
     `image` text,
     `creator_id` int,
-    `quantity` int
+    `quantity` int,
+    constraint `fk_products_users` foreign key (`creator_id`) references `users` (`id`)
 );
 
 CREATE TABLE `carts` (
@@ -35,14 +37,17 @@ CREATE TABLE `carts` (
     `inserted_at` datetime,
     `updated_at` datetime,
     `user_id` int,
-    `deleted` tinyint
+    `deleted` tinyint,
+    constraint `fk_carts_users` foreign key (`user_id`) references `users` (`id`)
 );
 
 CREATE TABLE `cart_products` (
     `id` int PRIMARY KEY AUTO_INCREMENT,
     `cart_id` int,
     `product_id` int,
-    `quantity` int
+    `quantity` int,
+    constraint `fk_cart_products_carts` foreign key (`cart_id`) references `carts` (`id`)
+    constraint `fk_cart_products_products` foreign key (`product_id`) references `products` (`id`)
 );
 
 CREATE TABLE `orders` (
@@ -51,7 +56,8 @@ CREATE TABLE `orders` (
     `inserted_at` datetime,
     `updated_at` datetime,
     `user_id` int,
-    `total_price` decimal
+    `total_price` decimal,
+    constraint `fk_orders_users` foreign key (`user_id`) references `users` (`id`)
 );
 
 CREATE TABLE `order_products` (
@@ -59,48 +65,10 @@ CREATE TABLE `order_products` (
     `order_id` int,
     `product_id` int,
     `inserted_at` datetime,
-    `updated_at` datetime
+    `updated_at` datetime,
+    constraint `fk_order_products_orders` foreign key (`order_id`) references `orders` (`id`)
+    constraint `fk_order_products_products` foreign key (`product_id`) references `products` (`id`)
 );
-
-ALTER TABLE
-    `users`
-ADD
-    FOREIGN KEY (`id`) REFERENCES `user_tokens` (`user_id`);
-
-ALTER TABLE
-    `products`
-ADD
-    FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE
-    `carts`
-ADD
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE
-    `cart_products`
-ADD
-    FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`);
-
-ALTER TABLE
-    `cart_products`
-ADD
-    FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
-
-ALTER TABLE
-    `orders`
-ADD
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE
-    `order_products`
-ADD
-    FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
-
-ALTER TABLE
-    `order_products`
-ADD
-    FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 create
 or replace procedure add_cart(
